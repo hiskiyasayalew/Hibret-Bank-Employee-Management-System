@@ -1,0 +1,31 @@
+<div class="login-container">
+  <div class="login-container-left">
+    <h1>Welcome <br> Back!</h1>
+  </div>
+  <div class="login-container-right">
+    <div class="Right-internal-container">
+      <h2>Login</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label for="username">Username</label>
+          <input type="text" id="username" formControlName="username" placeholder="Enter your username">
+          <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid" class="alert-danger">
+            Username Required!
+          </div>
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <input type="password" id="password" formControlName="password" placeholder="Enter your password">
+          <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="alert-danger">
+            Password Required!
+          </div>
+        </div>
+        <br>
+        <button type="submit">Login</button>
+      </form>
+
+      <h3>Don’t have an Account? <a [routerLink]="['/signup']">Sign-up</a></h3>
+    </div>
+  </div>
+</div>
