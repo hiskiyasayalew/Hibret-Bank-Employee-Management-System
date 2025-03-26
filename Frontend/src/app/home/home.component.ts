@@ -7,11 +7,12 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule],
 })
 export class HomeComponent {
-isActive: any;
-toggleActive() {
-throw new Error('Method not implemented.');
-}
+  isActive = false; // Initialize the isActive property
+
+  toggleMenu() {
+    this.isActive = !this.isActive;
+  }
 }

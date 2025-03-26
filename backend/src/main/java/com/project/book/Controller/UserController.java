@@ -12,12 +12,14 @@ import com.project.book.Entity.UserEntity;
 import com.project.book.Service.UserService;
 
 import com.project.book.dto.UserDTO;
+import com.project.book.dto.loginDTO;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     private final UserService userService;
@@ -65,41 +67,17 @@ public class UserController {
         }
     }
 
-    // @PostMapping("/login")
-    // public ResponseEntity<UserEntity> login(@RequestParam String username,
-    // @RequestParam String password) {
-    // if (username != null && password != null) {
-    // UserEntity user = userService.getUserById(username);
-    // if (user != null && user.getUsername().equals(username) &&
-    // user.getPassword().equals(password)) {
-    // return new ResponseEntity<>(user, HttpStatus.OK);
-    // }
-    // }
-    // return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    // }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody loginDTO loginDTO) {
+        UserEntity user = userService.getUserByUserName(loginDTO.getUserName());
 
-    // return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    // }
-
-    // // Endpoint for user registration
-    // @PostMapping("/signup")
-    // public ResponseEntity<UserEntity> signup(@RequestBody UserEntity user) {
-    // UserEntity createdUser = userService.registerUser(user);
-    // return ResponseEntity.ok(createdUser);
-    // }
-
-    // // Endpoint for user login
-    // @PostMapping("/login")
-    // public ResponseEntity<UserEntity> login(@RequestParam String username,
-    // @RequestParam String password)
-    // throws LoginException {
-    // UserEntity loginResponse = userService.loginUser(username, password);
-
-    // if (loginResponse.getUser() != null) {
-    // return ResponseEntity.ok(loginResponse);
-    // } else {
-    // return ResponseEntity.status(401).body(loginResponse); // Unauthorized
-    // }
-    // }
+        if (user != null && loginDTO.getUserName() != user.getUserName()
+                && user.getPassword().equals(loginDTO.getPassword())) {
+            return ResponseEntity.ok(Map.of("message", "Login successful"));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid username or password"));
+        }
+    }
 
 }

@@ -49,15 +49,4 @@ public class UserService {
         return userRepository.findByUserName(userName);
     }
 
-    // public Map<String, String> createRole(UserDTO userDTO) {
-    // // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method 'createRole'");
-    // }
-
-    // public UserEntity getUserByUserName(String username) {
-    // // TODO Auto-generated method stub
-    // throw new UnsupportedOperationException("Unimplemented method
-    // 'getUserByUserName'");
-    // }
-
 }

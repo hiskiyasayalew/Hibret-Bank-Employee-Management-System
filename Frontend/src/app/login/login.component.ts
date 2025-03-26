@@ -1,30 +1,52 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule] // Include ReactiveFormsModule
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  router: any;
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder) {
-    // Initialize the form
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required], // Define the username control
-      password: ['', Validators.required]    // Define the password control
+      userName: ['', Validators.required], // Changed from username to userName to match DTO
+      password: ['', Validators.required],
     });
   }
 
   onSubmit() {
-    console.log("Logged in", this.loginForm.value);
-    this.router.navigate(['/home']);
-  }
+    if (this.loginForm.valid) {
+      const { userName, password } = this.loginForm.value; // Now it matches DTO
 
+      this.authService.login(userName, password).subscribe({
+        next: (response) => {
+          console.log('Login Successful', response);
+          localStorage.setItem('status', response.message);
+          this.router.navigate(['/home']); // Redirect on success
+        },
+        error: (error) => {
+          console.error('Login Failed:', error);
+          this.errorMessage = 'Invalid username or password!';
+        },
+      });
+    }
+  }
 }
