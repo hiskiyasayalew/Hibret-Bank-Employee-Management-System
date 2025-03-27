@@ -1,0 +1,86 @@
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<div class="container">
+  <div class="left-section">
+    <h2>Welcome To EMS</h2>
+  </div>
+
+  <div class="right-section">
+    <h2>Employee Login</h2>
+
+    <form [formGroup]="employeeForm" (ngSubmit)="loginEmployee()">
+      <!-- First Name -->
+      <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" formControlName="firstName" />
+        <small *ngIf="employeeForm.get('firstName')?.invalid && employeeForm.get('firstName')?.touched">
+          First name is required.
+        </small>
+      </div>
+
+      <!-- Last Name -->
+      <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" formControlName="lastName" />
+        <small *ngIf="employeeForm.get('lastName')?.invalid && employeeForm.get('lastName')?.touched">
+          Last name is required.
+        </small>
+      </div>
+
+      <!-- Phone Number -->
+      <div>
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" formControlName="phoneNumber" />
+        <small *ngIf="employeeForm.get('phoneNumber')?.invalid && employeeForm.get('phoneNumber')?.touched">
+          Phone number must be 10 digits.
+        </small>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password" />
+        <small *ngIf="employeeForm.get('password')?.invalid && employeeForm.get('password')?.touched">
+          Password must be at least 6 characters.
+        </small>
+      </div>
+
+      <!-- Department -->
+      <div>
+        <label for="department">Department:</label>
+        <input type="text" id="department" formControlName="department" />
+      </div>
+
+      <!-- Role -->
+      <div>
+        <label for="role">Role:</label>
+        <select id="role" formControlName="role">
+          <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        </select>
+      </div>
+
+      <!-- Hire Date -->
+      <div>
+        <label for="hireDate">Hire Date:</label>
+        <input type="date" id="hireDate" formControlName="hireDate" />
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label for="status">Status:</label>
+        <select id="status" formControlName="status">
+          <option id="Drop" value="ACTIVE">Active</option>
+          <option id="Drop" value="INACTIVE">Inactive</option>
+        </select>
+      </div>
+
+
+      <button type="submit" [disabled]="employeeForm.invalid" class="login-btn">Login</button>
+
+      <p class="signup-text">Don’t have an Account? <a href="/signup">Sign-up</a></p>
+    </form>
+  </div>
+</div>

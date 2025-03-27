@@ -14,4 +14,10 @@ export class AuthService {
   login(userName: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { userName, password });
   }
-}
+    // Function to send signup request
+    signup(user: { userName: string; email: string; password: string }): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}/new`, user);
+    }
+  }
+
+

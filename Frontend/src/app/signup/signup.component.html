@@ -40,6 +40,8 @@
           Passwords must match.
         </small>
         <br>
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
         <!-- Signup Button -->
         <button class="Sign-up-btn" type="submit">signup</button>
       </form>
