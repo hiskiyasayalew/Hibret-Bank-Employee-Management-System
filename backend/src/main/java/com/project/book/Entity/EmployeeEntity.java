@@ -5,8 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -16,23 +14,8 @@ import java.util.Set;
 @Builder
 public class EmployeeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-generate Employee ID
     private Long id;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
-    private UserEntity user;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "employee_role",
-        joinColumns = @JoinColumn(name = "employee_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<RoleEntity> roles = new HashSet<>();
-
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<AttendanceEntity> attendances = new HashSet<>();
 
     @Column(nullable = false, length = 50)
     private String firstName;
@@ -56,7 +39,7 @@ public class EmployeeEntity {
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private Status status = Status.ACTIVE;
+    private Status status = Status.ACTIVE;  // Default value initialized
 
     public enum Status {
         ACTIVE, INACTIVE

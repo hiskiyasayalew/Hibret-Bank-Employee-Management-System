@@ -31,8 +31,7 @@ public class UserEntity {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private EmployeeEntity employee;
+
 
     @PrePersist
     protected void onCreate() {

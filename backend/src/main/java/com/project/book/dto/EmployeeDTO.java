@@ -18,5 +18,5 @@ public class EmployeeDTO {
     private String position;
     private BigDecimal salary;
     private LocalDate hireDate;
-    private String status;
+    private String status = "ACTIVE";
 }
