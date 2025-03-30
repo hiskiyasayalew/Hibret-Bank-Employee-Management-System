@@ -17,35 +17,23 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    // Create or update employee
     @PostMapping("/save")
     public ResponseEntity<EmployeeDTO> saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        System.out.println("\n\n\n " + employeeDTO);
-        // Save the employee via the service
-        EmployeeDTO savedEmployee = employeeService.saveEmployee(employeeDTO);
-
-        // Return 201 Created with the saved EmployeeDTO in the response body
+        EmployeeDTO savedEmployee = employeeService.saveEmployee(employeeDTO, 1L);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
     }
 
-    // Get all employees
     @GetMapping("/all")
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
-        List<EmployeeDTO> employees = employeeService.getAllEmployees();
-        return ResponseEntity.ok(employees);
+        return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
-    // Get employee by ID
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id) {
         EmployeeDTO employee = employeeService.getEmployeeById(id);
-        if (employee != null) {
-            return ResponseEntity.ok(employee);
-        }
-        return ResponseEntity.notFound().build();
+        return employee != null ? ResponseEntity.ok(employee) : ResponseEntity.notFound().build();
     }
 
-    // Delete employee by ID
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);

@@ -7,9 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeRepo extends JpaRepository<EmployeeEntity, Long> {
 
-    // Optional<EmployeeEntity> findByUserId(Long userId);
-
-    // Optional<EmployeeEntity> findByPhoneNumber(String userName);
-
-    // Optional<EmployeeEntity> findByPhoneNumber(String phoneNumber);
+   
 }

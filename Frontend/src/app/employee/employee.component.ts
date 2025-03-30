@@ -1,62 +1,65 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
+import { Employee } from '../employee/employee.model';
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule ,RouterModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.css']
+  styleUrls: ['./employee.component.css'],
 })
 export class EmployeeComponent implements OnInit {
   employeeForm!: FormGroup;
-  roles: string[] = [];
+  successMessage: string = '';
+  errorMessage: string = '';
 
+  // Inject FormBuilder and AuthService
   private fb = inject(FormBuilder);
-  private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() {}
 
   ngOnInit() {
-    // Initialize the form
     this.employeeForm = this.fb.group({
-      phoneNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]], // 10-digit phone number validation
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      role: ['', Validators.required]
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
+      department: [''],
+      position: [''],
+      salary: [''],
+      hireDate: [''],
+      status: ['ACTIVE', Validators.required] ,
     });
-
-    // Fetch roles from backend
-    this.fetchRoles();
   }
 
-  fetchRoles() {
-    this.http.get<string[]>('/api/roles').subscribe(
-      (data) => {
-        this.roles = data;
-      },
-      (error) => {
-        console.error('Error fetching roles:', error);
-      }
-    );
-  }
-
-  loginEmployee() {
+  registerEmployee() {
     if (this.employeeForm.invalid) {
-      alert('Please fill in all fields correctly.');
+      this.errorMessage = 'Please fill in all required fields correctly!';
       return;
     }
 
-    this.http.post('/api/employees/login', this.employeeForm.value).subscribe(
+    this.authService.saveEmployee(this.employeeForm.value).subscribe(
       (response) => {
-        console.log('Login successful:', response);
-        alert('Login successful');
+        this.successMessage = 'Employee Registered Successfully!';
+        this.errorMessage = '';
+        this.employeeForm.reset();
+        setTimeout(() => {
+          this.successMessage = '';
+          this.router.navigate(['/employee-login']);
+        }, 2000);
       },
       (error) => {
-        console.error('Login failed:', error);
-        alert('Login failed');
+        console.error('Error:', error);
+        this.errorMessage = 'Failed to register employee!';
       }
     );
   }
