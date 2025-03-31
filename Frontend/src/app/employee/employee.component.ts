@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 
-import { Employee } from '../employee/employee.model';
 @Component({
   selector: 'app-employee',
   standalone: true,
@@ -21,7 +19,7 @@ export class EmployeeComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
 
-  // Inject FormBuilder and AuthService
+  // Inject services
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -33,11 +31,11 @@ export class EmployeeComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phoneNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
-      department: [''],
-      position: [''],
-      salary: [''],
-      hireDate: [''],
-      status: ['ACTIVE', Validators.required] ,
+      department: ['', Validators.required],
+      position: ['', Validators.required],
+      salary: ['', [Validators.required, Validators.min(0)]],
+      hireDate: ['', Validators.required],
+      status: ['ACTIVE', Validators.required],
     });
   }
 
@@ -47,20 +45,25 @@ export class EmployeeComponent implements OnInit {
       return;
     }
 
-    this.authService.saveEmployee(this.employeeForm.value).subscribe(
-      (response) => {
+    this.authService.saveEmployee(this.employeeForm.value).subscribe({
+      next: (response) => {
+        console.log('Employee registered:', response);
         this.successMessage = 'Employee Registered Successfully!';
         this.errorMessage = '';
+
         this.employeeForm.reset();
+        this.employeeForm.patchValue({ status: 'ACTIVE' }); // Ensure status remains ACTIVE
+
         setTimeout(() => {
           this.successMessage = '';
           this.router.navigate(['/employee-login']);
         }, 2000);
       },
-      (error) => {
-        console.error('Error:', error);
-        this.errorMessage = 'Failed to register employee!';
-      }
-    );
+      error: (error) => {
+        console.error('Error registering employee:', error);
+        this.errorMessage =
+          error?.error?.message || 'Failed to register employee!';
+      },
+    });
   }
 }

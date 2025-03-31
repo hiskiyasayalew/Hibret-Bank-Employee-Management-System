@@ -12,6 +12,5 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'employee', component: EmployeeComponent },
   { path: 'attendance', component: AttendanceComponent },
-  { path: 'employee-login', component: EmployeeLoginComponent }
- // New employee route
+  { path: 'employee-login', component: EmployeeLoginComponent },
 ];

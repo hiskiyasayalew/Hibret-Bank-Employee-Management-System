@@ -1,5 +1,6 @@
 package com.project.book.Controller;
 
+import com.project.book.Entity.EmployeeEntity;
 import com.project.book.Service.EmployeeService;
 import com.project.book.dto.EmployeeDTO;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -44,16 +48,24 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
     }
-    
+
     @PostMapping("/validate")
-public ResponseEntity<String> validateEmployee(@RequestBody EmployeeDTO employeeDTO) {
-    boolean isValid = employeeService.validateEmployee(employeeDTO.getFirstName(), employeeDTO.getPhoneNumber());
-    if (isValid) {
-        return ResponseEntity.ok("Employee found");
-    } else {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
+    public ResponseEntity<?> validateEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        Optional<EmployeeEntity> employee = employeeService.getEmployeeByFirstNameAndPhoneNumber(
+                employeeDTO.getFirstName(), employeeDTO.getPhoneNumber());
+
+        // Map<String, Optional<EmployeeEntity>> maps = new HashMap<>();
+        // maps.put("result", employee.get());
+
+        if (employee.isPresent()) {
+            return ResponseEntity.ok(employee.get()); // Return full employee JSON
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message",
+                    "Employee not found"));
+        }
+
     }
-}
+
     // Update employee by ID
     @PutMapping("/update/{id}")
     public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {

@@ -74,9 +74,8 @@ public class EmployeeService {
         employeeRepo.deleteById(id);
     }
 
-    public boolean validateEmployee(String firstName, String phoneNumber) {
-        // Corrected: Call the method on the injected employeeRepo instance
-        return employeeRepo.existsByFirstNameAndPhoneNumber(firstName, phoneNumber);
+    public Optional<EmployeeEntity> getEmployeeByFirstNameAndPhoneNumber(String firstName, String phoneNumber) {
+        return employeeRepo.findByFirstNameAndPhoneNumber(firstName, phoneNumber);
     }
 
     // Update Employee

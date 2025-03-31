@@ -9,3 +9,7 @@ export interface Employee {
   hireDate: string;
   status: string;
 }
+
+export type EmployeeResponse = {
+  message: string;
+};
