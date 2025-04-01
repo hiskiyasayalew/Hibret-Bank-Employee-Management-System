@@ -1,9 +1,7 @@
 package com.project.book.dto;
 
 import com.project.book.Entity.AppealEntity;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,18 +9,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppealDTO {
-
     private Long id;
-    private Long employee_id;
+    private Long employeeId;  // Change name to follow Java conventions
+    private String name;
+    private String description;
+    private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String status;
 
     public AppealDTO(AppealEntity appealEntity) {
         this.id = appealEntity.getId();
-        this.employee_id = appealEntity.getEmployee().getId();
+        this.employeeId = appealEntity.getEmployee().getId();
+        this.name = appealEntity.getName();
+        this.description = appealEntity.getDescription();
+        this.status = appealEntity.getStatus().name();
         this.createdAt = appealEntity.getCreatedAt();
         this.updatedAt = appealEntity.getUpdatedAt();
-        this.status = appealEntity.getStatus().name();
     }
 }

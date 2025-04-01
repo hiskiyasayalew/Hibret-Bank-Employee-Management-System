@@ -1,0 +1,25 @@
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<div class="appeal-container">
+<h2>Create Appeal</h2>
+<form [formGroup]="appealForm" (ngSubmit)="submitAppeal()">
+  <label for="name">Appeal Name:</label>
+  <input id="name" formControlName="name" required />
+
+  <label for="description">Description:</label>
+  <textarea id="description" formControlName="description" required></textarea>
+
+  <button type="submit" [disabled]="appealForm.invalid">Submit Appeal</button>
+</form>
+
+<h2>Submitted Appeals</h2>
+<ul>
+  <li *ngFor="let appeal of appeals">
+    <strong>{{ appeal.name }}</strong> - {{ appeal.description }} ({{ appeal.status }})
+  </li>
+</ul>
+<button (click)="logout()" >Logout</button>
+</div>

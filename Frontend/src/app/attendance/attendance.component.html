@@ -1,5 +1,47 @@
-<div>
-    <h2>Attendance From</h2>
-    <h1>Hello {{ user()?.firstName }} {{ user()?.lastName }}</h1>
-    <button>Mark</button>
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+
+<div class="main-container">
+  <!-- Attendance Form -->
+  <div class="attendance-container">
+    <h2>Attendance Form</h2>
+
+    <h1 *ngIf="user(); else loadingUser">Hello, {{ user()?.firstName }} {{ user()?.lastName }}</h1>
+    <ng-template #loadingUser>
+      <p>Loading user...</p>
+    </ng-template>
+
+    <button (click)="markAttendance()">Mark Attendance</button>
+
+    <h3>Your Attendance Records</h3>
+
+    <!-- ✅ Removed unnecessary JSON display -->
+
+    <ul *ngIf="attendanceList.length > 0; else noRecords">
+      <li *ngFor="let record of attendanceList">
+        <strong>Date:</strong> {{ record.date }} |
+        <strong>Check-in:</strong> {{ record.checkInTime ?? 'Not marked' }} |
+        <strong>Check-out:</strong> {{ record.checkOutTime ?? 'Not marked' }} |
+        <strong>Status:</strong> {{ record.status }}
+      </li>
+    </ul>
+
+    <ng-template #noRecords>
+      <p>No attendance records found.</p>
+    </ng-template>
+  </div>
+
+  <!-- Button Container -->
+  <div class="Button-container">
+    <div class="Appeal-button">
+      <button (click)="navigateToAppeal()">Appeal</button>
+    </div>
+    <p>If you want to create an Appeal, click the above button</p>
+    <div class="Logout-Button">
+      <button (click)="logout()">Log-out</button>
+    </div>
+  </div>
 </div>

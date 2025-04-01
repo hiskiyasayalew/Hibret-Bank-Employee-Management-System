@@ -1,5 +1,6 @@
 // src/app/employee/employee.model.ts
 export interface Employee {
+  id: number;
   firstName: string;
   lastName: string;
   phoneNumber: string;
@@ -8,6 +9,7 @@ export interface Employee {
   role: string;
   hireDate: string;
   status: string;
+  position: string;
 }
 
 export type EmployeeResponse = {

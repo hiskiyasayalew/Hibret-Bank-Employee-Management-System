@@ -1,6 +1,6 @@
 <div class="container">
   <div class="left-side-container">
-    <h1>Employee<br>Registration</h1>
+    <h1>Employee<br />Registration</h1>
   </div>
   <div class="right-side-container">
     <form [formGroup]="employeeForm" (ngSubmit)="registerEmployee()">
@@ -14,10 +14,16 @@
       <input type="text" formControlName="phoneNumber" required />
 
       <label>Department:</label>
-      <input type="text" formControlName="department" />
+      <select formControlName="department">
+        <option value="IT">IT</option>
+        <option value="HR">HR</option>
+        <option value="Core-Banking">Core Banking</option>
+        <option value="Office-Management">Office Management</option>
+        <option value="Loan">Loan</option>
+      </select>
 
       <label>Position:</label>
-      <input type="text" formControlName="position" />
+      <input type="text" formControlName="position" required />
 
       <label>Status:</label>
       <select formControlName="status">
@@ -26,10 +32,10 @@
       </select>
 
       <label>Salary:</label>
-      <input type="number" formControlName="salary" />
+      <input type="number" formControlName="salary" required />
 
       <label>Hire Date:</label>
-      <input type="date" formControlName="hireDate" />
+      <input type="date" formControlName="hireDate" required />
 
       <button type="submit" [disabled]="employeeForm.invalid">Register</button>
     </form>

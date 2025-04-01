@@ -1,5 +1,9 @@
 
 
+<nav>
+  <a routerLink="/">Home</a>
+  <a *ngIf="isAdmin()" routerLink="/admin">Admin Panel</a>
+</nav>
 
 
   <router-outlet></router-outlet>

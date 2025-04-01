@@ -2,12 +2,14 @@ package com.project.book.Service;
 
 import com.project.book.Repository.AppealRepo;
 import com.project.book.Entity.AppealEntity;
-import com.project.book.dto.AppealDTO;
 import com.project.book.Entity.EmployeeEntity;
+import com.project.book.dto.AppealDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AppealService {
@@ -18,37 +20,41 @@ public class AppealService {
         this.appealRepo = appealRepo;
     }
 
-    // Save appeal
-    public AppealDTO saveAppeal(AppealDTO appealDTO, EmployeeEntity employee) {
-        AppealEntity appealEntity = new AppealEntity();
-        appealEntity.setEmployee(employee);
-        appealEntity.setCreatedAt(LocalDateTime.now());
-        appealEntity.setUpdatedAt(LocalDateTime.now());
-        appealEntity.setStatus(AppealEntity.Status.valueOf(appealDTO.getStatus().toUpperCase()));
+    // Employee submits appeal (Only name & description)
+    public AppealDTO submitAppeal(String name, String description, EmployeeEntity employee) {
+        AppealEntity appealEntity = AppealEntity.builder()
+                .employee(employee)
+                .name(name)
+                .description(description)
+                .status(AppealEntity.Status.PENDING)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
 
         AppealEntity savedAppeal = appealRepo.save(appealEntity);
         return new AppealDTO(savedAppeal);
     }
 
-    // Get appeal by ID
-    public AppealDTO getAppealById(Long appealId) {
-        Optional<AppealEntity> appealEntity = appealRepo.findById(appealId);
-        if (appealEntity.isPresent()) {
-            return new AppealDTO(appealEntity.get());
-        }
-        throw new RuntimeException("Appeal not found with id: " + appealId);
+    // Admin gets all appeals
+    public List<AppealDTO> getAllAppeals() {
+        return appealRepo.findAll().stream().map(AppealDTO::new).collect(Collectors.toList());
     }
 
-    // Update appeal status
+    // Employee gets their own appeals
+    public List<AppealDTO> getEmployeeAppeals(Long employeeId) {
+        return appealRepo.findByEmployeeId(employeeId).stream().map(AppealDTO::new).collect(Collectors.toList());
+    }
+
+    // Admin updates appeal status
     public AppealDTO updateAppealStatus(Long appealId, String status) {
-        Optional<AppealEntity> appealEntity = appealRepo.findById(appealId);
-        if (appealEntity.isPresent()) {
-            AppealEntity appeal = appealEntity.get();
+        Optional<AppealEntity> optionalAppeal = appealRepo.findById(appealId);
+        if (optionalAppeal.isPresent()) {
+            AppealEntity appeal = optionalAppeal.get();
             appeal.setStatus(AppealEntity.Status.valueOf(status.toUpperCase()));
             appeal.setUpdatedAt(LocalDateTime.now());
             appealRepo.save(appeal);
             return new AppealDTO(appeal);
         }
-        throw new RuntimeException("Appeal not found with id: " + appealId);
+        throw new RuntimeException("Appeal not found with ID: " + appealId);
     }
 }

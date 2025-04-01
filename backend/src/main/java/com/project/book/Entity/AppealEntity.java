@@ -26,6 +26,12 @@ public class AppealEntity {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String description;
+
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Status status = Status.PENDING;

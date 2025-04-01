@@ -13,11 +13,8 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // Function to send login request
-  login(userName: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.userApiUrl}/login`, {
-      userName,
-      password,
-    });
+  login(phoneNumber: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.userApiUrl}/login`, { phoneNumber, password });
   }
 
   // Function to send signup request

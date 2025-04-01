@@ -40,7 +40,7 @@ export class LoginComponent {
         next: (response) => {
           console.log('Login Successful', response);
           localStorage.setItem('status', response.message);
-          this.router.navigate(['/employee']); // Redirect on success
+          this.router.navigate(['/employee-login']); // Redirect on success
         },
         error: (error) => {
           console.error('Login Failed:', error);

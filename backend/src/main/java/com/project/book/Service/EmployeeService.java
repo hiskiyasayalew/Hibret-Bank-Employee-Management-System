@@ -104,4 +104,10 @@ public class EmployeeService {
                 updatedEmployee.getHireDate(),
                 updatedEmployee.getStatus().name());
     }
+    public boolean isAdmin(Long id) {
+        Optional<EmployeeEntity> employee = employeeRepo.findById(id);
+        return employee.isPresent() && "admin".equalsIgnoreCase(employee.get().getPosition());
+    }
+    
+    
 }

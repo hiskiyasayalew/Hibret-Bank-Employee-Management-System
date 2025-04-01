@@ -1,0 +1,14 @@
+.unauthorized {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.unauthorized h2 {
+  color: red;
+}
+
+.unauthorized a {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}

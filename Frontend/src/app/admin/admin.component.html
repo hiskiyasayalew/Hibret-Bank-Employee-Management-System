@@ -1,1 +1,33 @@
-<p>admin works!</p>
+
+<div class="admin-container">
+  <h2>Admin Panel</h2>
+
+  <div class="admin-actions">
+    <button (click)="logout()">Log Out</button>
+  </div>
+
+  <h3>Manage Appeals</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appeal of appeals">
+        <td>{{ appeal.employeeId }}</td>
+        <td>{{ appeal.name }}</td>
+        <td>{{ appeal.description }}</td>
+        <td>{{ appeal.status }}</td>
+        <td>
+          <button (click)="updateStatus(appeal.id, 'APPROVED')">Approve</button>
+          <button (click)="updateStatus(appeal.id, 'REJECTED')">Reject</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

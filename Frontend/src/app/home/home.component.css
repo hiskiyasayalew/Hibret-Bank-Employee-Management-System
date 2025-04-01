@@ -10,7 +10,6 @@
  .home-container img{
     width: 40px;
  }
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 :root {
   --white: #ffffff;
@@ -101,7 +100,7 @@ body {
 
 .menu li:nth-child(1) {
   transition-delay: 0.2s;
- 
+
 }
 
 .menu li:nth-child(2) {

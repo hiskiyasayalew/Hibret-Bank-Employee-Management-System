@@ -6,6 +6,8 @@ import com.project.book.Entity.EmployeeEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/appeals")
 public class AppealController {
@@ -16,22 +18,31 @@ public class AppealController {
         this.appealService = appealService;
     }
 
-    // Create a new appeal
-    @PostMapping("/save")
-    public ResponseEntity<AppealDTO> saveAppeal(@RequestBody AppealDTO appealDTO, @RequestParam Long employeeId) {
-        // Assuming the EmployeeEntity can be fetched by employeeId (You may need to
-        // retrieve it via a service)
-        EmployeeEntity employee = new EmployeeEntity(); // In reality, you would fetch this from the database.
+    // Employee submits an appeal
+    @PostMapping("/submit")
+    public ResponseEntity<AppealDTO> submitAppeal(@RequestBody AppealDTO appealDTO, @RequestParam Long employeeId) {
+        EmployeeEntity employee = new EmployeeEntity();
         employee.setId(employeeId);
 
-        AppealDTO savedAppeal = appealService.saveAppeal(appealDTO, employee);
+        AppealDTO savedAppeal = appealService.submitAppeal(appealDTO.getName(), appealDTO.getDescription(), employee);
         return ResponseEntity.status(201).body(savedAppeal);
     }
 
-    // Get an appeal by ID
-    @GetMapping("/{appealId}")
-    public ResponseEntity<AppealDTO> getAppealById(@PathVariable Long appealId) {
-        AppealDTO appealDTO = appealService.getAppealById(appealId);
-        return ResponseEntity.ok(appealDTO);
+    // Admin gets all appeals
+    @GetMapping("/all")
+    public ResponseEntity<List<AppealDTO>> getAllAppeals() {
+        return ResponseEntity.ok(appealService.getAllAppeals());
+    }
+
+    // Employee gets their own appeals
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<List<AppealDTO>> getEmployeeAppeals(@PathVariable Long employeeId) {
+        return ResponseEntity.ok(appealService.getEmployeeAppeals(employeeId));
+    }
+
+    // Admin updates appeal status
+    @PutMapping("/update-status/{appealId}")
+    public ResponseEntity<AppealDTO> updateAppealStatus(@PathVariable Long appealId, @RequestParam String status) {
+        return ResponseEntity.ok(appealService.updateAppealStatus(appealId, status));
     }
 }
