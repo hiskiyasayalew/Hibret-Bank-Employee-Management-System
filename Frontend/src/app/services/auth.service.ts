@@ -13,10 +13,16 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // Function to send login request
-  login(phoneNumber: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.userApiUrl}/login`, { phoneNumber, password });
+  login(userName: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.userApiUrl}/login`, { userName, password });
   }
 
+  employeelogin(firstName: string, phoneNumber: string) {
+    return this.http.post<any>('http://localhost:8080/api/employees/validate', {
+      firstName,
+      phoneNumber
+    });
+  }
   // Function to send signup request
   signup(user: {
     userName: string;
@@ -38,11 +44,4 @@ export class AuthService {
     return this.http.get<string[]>('/api/roles'); // Adjust the roles endpoint if needed
   }
 
-  // Validate employee
-  validateEmployee(firstName: string, phoneNumber: string): Observable<any> {
-    return this.http.post<any>(`${this.employeeApiUrl}/validate`, {
-      firstName,
-      phoneNumber,
-    });
-  }
 }

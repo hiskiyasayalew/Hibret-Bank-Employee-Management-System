@@ -9,7 +9,9 @@
   <div class="attendance-container">
     <h2>Attendance Form</h2>
 
-    <h1 *ngIf="user(); else loadingUser">Hello, {{ user()?.firstName }} {{ user()?.lastName }}</h1>
+    <h1 *ngIf="user(); else loadingUser">
+      Hello, {{ user()?.firstName || '' }} {{ user()?.lastName || '' }}
+    </h1>
     <ng-template #loadingUser>
       <p>Loading user...</p>
     </ng-template>

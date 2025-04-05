@@ -1,14 +1,23 @@
 .unauthorized {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 100px;
+  font-family: Arial, sans-serif;
 }
 
 .unauthorized h2 {
-  color: red;
+  color: #d9534f;
 }
 
 .unauthorized a {
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.unauthorized a:hover {
+  background-color: red;
 }

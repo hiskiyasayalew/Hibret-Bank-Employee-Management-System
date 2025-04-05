@@ -1,15 +1,24 @@
+
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
-<form [formGroup]="employeeLoginForm" (ngSubmit)="login()">
-  <label for="phoneNumber">Phone Number:</label>
-  <input id="phoneNumber" formControlName="phoneNumber" type="text" />
 
-  <label for="password">Password:</label>
-  <input id="password" formControlName="password" type="password" />
+<div class="container">
+  <form [formGroup]="employeeLoginForm" (ngSubmit)="employeelogin()" class="login-form">
+    <h2>Employee Login</h2>
 
-  <button type="submit" [disabled]="employeeLoginForm.invalid">Login</button>
-  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-</form>
+    <label for="firstName">First Name:</label>
+    <input id="firstName" formControlName="firstName" type="text" />
+
+    <label for="phoneNumber">Phone Number:</label>
+    <input id="phoneNumber" formControlName="phoneNumber" type="text" />
+
+    <button type="submit" [disabled]="employeeLoginForm.invalid">Login</button>
+
+    <h4>Not an Employee? <a [routerLink]="['/employee']">Register</a></h4>
+
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  </form>
+</div>

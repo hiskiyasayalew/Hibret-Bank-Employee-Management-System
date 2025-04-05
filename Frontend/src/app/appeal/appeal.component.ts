@@ -37,7 +37,11 @@ export class AppealComponent implements OnInit {
         description: this.appealForm.value.description,
       };
 
-      this.http.post('http://localhost:8080/api/appeals/submit?employeeId=1', appealData).subscribe(
+      const userString = localStorage.getItem('employee');
+      const employee = userString ? JSON.parse(userString) : null;
+      const employeeId = employee?.id;
+
+      this.http.post(`http://localhost:8080/api/appeals/submit?employeeId=${employeeId}`, appealData).subscribe(
         (response) => {
           console.log('Appeal Submitted:', response); // ✅ Log response
           alert('Appeal submitted successfully!');
@@ -52,12 +56,19 @@ export class AppealComponent implements OnInit {
   }
 
   fetchAppeals() {
-    this.http.get<any[]>('http://localhost:8080/api/appeals/all').subscribe(
-      (data) => {
-        this.appeals = data;
-        console.log('Fetched Appeals:', this.appeals); // ✅ Log fetched appeals
-      },
-      (error) => console.error('Error fetching appeals:', error)
-    );
+    const userString = localStorage.getItem('employee');
+    const employee = userString ? JSON.parse(userString) : null;
+    const employeeId = employee?.id;
+
+    if (employeeId) {
+      this.http.get<any[]>(`http://localhost:8080/api/appeals/employee/${employeeId}`).subscribe(
+        (data) => {
+          this.appeals = data;
+          console.log('Fetched Appeals for current employee:', this.appeals);
+        },
+        (error) => console.error('Error fetching employee appeals:', error)
+      );
+    }
   }
+
 }

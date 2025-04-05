@@ -27,20 +27,28 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      userName: ['', Validators.required], // Changed from username to userName to match DTO
+      userName: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const { userName, password } = this.loginForm.value; // Now it matches DTO
+      const { userName, password } = this.loginForm.value;
 
       this.authService.login(userName, password).subscribe({
         next: (response) => {
           console.log('Login Successful', response);
-          localStorage.setItem('status', response.message);
-          this.router.navigate(['/employee-login']); // Redirect on success
+
+          // Save login status in localStorage or sessionStorage if needed
+          localStorage.setItem('loggedInUser', userName);
+
+          // Redirect based on username
+          if (userName.toLowerCase() === 'admin') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/employee-login']);
+          }
         },
         error: (error) => {
           console.error('Login Failed:', error);
@@ -50,4 +58,3 @@ export class LoginComponent {
     }
   }
 }
-

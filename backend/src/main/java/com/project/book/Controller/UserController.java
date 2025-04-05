@@ -71,8 +71,9 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody loginDTO loginDTO) {
         UserEntity user = userService.getUserByUserName(loginDTO.getUserName());
 
-        if (user != null && loginDTO.getUserName() != user.getUserName()
-                && user.getPassword().equals(loginDTO.getPassword())) {
+        if (user != null &&
+    user.getUserName().equals(loginDTO.getUserName()) &&
+    user.getPassword().equals(loginDTO.getPassword())) {
             return ResponseEntity.ok(Map.of("message", "Login successful"));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

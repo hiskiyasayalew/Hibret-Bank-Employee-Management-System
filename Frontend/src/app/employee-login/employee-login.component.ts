@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,12 +24,12 @@ export class EmployeeLoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.employeeLoginForm = this.fb.group({
-      firstName: ['', Validators.required], // Using firstName instead of password
+      firstName: ['', Validators.required],
       phoneNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
     });
   }
 
-  login(): void {
+  employeelogin(): void {
     if (this.employeeLoginForm.invalid) {
       this.errorMessage = 'Please enter valid credentials!';
       return;
@@ -37,23 +37,22 @@ export class EmployeeLoginComponent implements OnInit {
 
     const { firstName, phoneNumber } = this.employeeLoginForm.value;
 
-    console.log('Attempting login with:', { firstName, phoneNumber }); // Debugging
-
-    this.authService.login(firstName, phoneNumber).subscribe({
-      next: (response) => {
-        console.log('Login response:', response); // Debugging
-
-        if (!response || !response.token) {
+    this.authService.employeelogin(firstName, phoneNumber).subscribe({
+      next: (employee) => {
+        if (!employee || !employee.firstName || !employee.phoneNumber) {
           this.errorMessage = 'Invalid login response!';
           return;
         }
 
-        localStorage.setItem('user', JSON.stringify(response));
+        // Store employee data in localStorage
+        localStorage.setItem('employee', JSON.stringify(employee));
+
+        // Navigate to attendance for all employees
         this.router.navigate(['/attendance']);
       },
-      error: (error) => {
-        console.error('Login error:', error);
-        this.errorMessage = error?.error?.message || 'Login failed!';
+      error: (err) => {
+        console.error('Login error:', err);
+        this.errorMessage = err?.error?.message || 'Login failed!';
       },
     });
   }

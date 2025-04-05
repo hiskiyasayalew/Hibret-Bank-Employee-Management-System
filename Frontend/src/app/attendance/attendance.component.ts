@@ -21,7 +21,7 @@ export class AttendanceComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    const userString = localStorage.getItem('user');
+    const userString = localStorage.getItem('employee');
 
     if (userString) {
       try {
