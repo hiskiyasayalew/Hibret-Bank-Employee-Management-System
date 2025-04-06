@@ -1,47 +1,68 @@
-.admin-container {
-  max-width: 900px;
-  margin: auto;
+*{
+  font-family: "Poppins", sans-serif;
+}
+.nav-container {
+  margin-top: 2%;
+  border: 2px solid #3E1768;
   padding: 20px;
-  background: #fff;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  text-align: center;
+  margin: 1%;
+  border-radius: 10px;
+}
+.dashboard-container {
+  padding: 20px;
+
 }
 
-.admin-actions {
+.dashboard-title {
+  font-size: 32px;
+  color: #3E1768;
   margin-bottom: 20px;
 }
 
-button {
-  background: teal;
-  color: white;
-  border: none;
-  padding: 10px;
-  margin: 5px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button:hover {
-  background: darkcyan;
+mat-card {
+  padding: 20px;
+  border: 2px solid #3E1768;
+  border-radius: 10px;
 }
 
 table {
   width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: center;
 }
 
 th {
-  background: #333;
-  color: white;
+  color: #3E1768;
 }
 
-tr:nth-child(even) {
-  background: #f2f2f2;
+td {
+  color: #1f75fe;
+}
+
+button {
+  font-weight: bold;
+}
+
+
+.approved {
+  color: green;
+  font-weight: bold;
+
+}
+.rejected {
+  color: red;
+  font-weight: bold;
+}
+.pending {
+  color: orange;
+  font-weight: bold;
+}
+.Appeal-btn{
+  border: 1px solid #3E1768;
+margin-left: 5px;
+border-radius: 7px;
+background-color: red;
+color: black  ;
+}
+#Approve-btn{
+  background-color: green;
+  color: #fff;
 }

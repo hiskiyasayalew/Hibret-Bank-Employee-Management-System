@@ -26,4 +26,8 @@ public class AttendanceDTO {
     private LocalTime checkOutTime;
 
     private Status status;
+
+    private String firstName;
+    private String lastName;
+
 }

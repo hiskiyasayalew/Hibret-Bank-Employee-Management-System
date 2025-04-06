@@ -90,10 +90,19 @@ public class AttendanceService {
         return AttendanceDTO.builder()
                 .id(entity.getId())
                 .employeeId(entity.getEmployee().getId())
+                .firstName(entity.getEmployee().getFirstName())
+                .lastName(entity.getEmployee().getLastName())
                 .date(entity.getDate())
                 .checkInTime(entity.getCheckInTime())
                 .checkOutTime(entity.getCheckOutTime())
                 .status(entity.getStatus())
                 .build();
     }
+    
+    public List<AttendanceDTO> getAllAttendances() {
+        return attendanceRepo.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+    
 }

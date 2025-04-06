@@ -33,4 +33,9 @@ public class AttendanceController {
         return ResponseEntity.ok(attendanceService.getAttendanceByDate(date));
     }
 
+    @GetMapping("/all")
+public ResponseEntity<List<AttendanceDTO>> getAllAttendances() {
+    return ResponseEntity.ok(attendanceService.getAllAttendances());
+}
+
 }
