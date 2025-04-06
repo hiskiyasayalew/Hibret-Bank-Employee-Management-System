@@ -81,4 +81,27 @@ public class UserController {
         }
     }
 
+
+    // Delete user by ID
+@DeleteMapping("/delete/{id}")
+public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long id) {
+    boolean deleted = userService.deleteUser(id);
+    if (deleted) {
+        return new ResponseEntity<>(Map.of("message", "User deleted successfully"), HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(Map.of("error", "User not found"), HttpStatus.NOT_FOUND);
+    }
+}
+
+// Update user by ID
+@PutMapping("/{id}")
+public ResponseEntity<Map<String, String>> updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUser) {
+    boolean updated = userService.updateUser(id, updatedUser);
+    if (updated) {
+        return new ResponseEntity<>(Map.of("message", "User updated successfully"), HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(Map.of("error", "User not found or update failed"), HttpStatus.NOT_FOUND);
+    }
+}
+
 }

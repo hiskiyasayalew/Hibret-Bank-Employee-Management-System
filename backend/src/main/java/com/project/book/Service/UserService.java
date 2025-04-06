@@ -49,4 +49,23 @@ public class UserService {
         return userRepository.findByUserName(userName);
     }
 
+    // Delete user
+public boolean deleteUser(Long id) {
+    if (userRepository.existsById(id)) {
+        userRepository.deleteById(id);
+        return true;
+    }
+    return false;
+}
+
+// Update user
+public boolean updateUser(Long id, UserDTO updatedUser) {
+    return userRepository.findById(id).map(user -> {
+        user.setUserName(updatedUser.getUserName());
+        user.setEmail(updatedUser.getEmail());
+        user.setPassword(updatedUser.getPassword());
+        userRepository.save(user);
+        return true;
+    }).orElse(false);
+}
 }

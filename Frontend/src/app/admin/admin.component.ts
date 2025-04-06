@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 // Angular Material modules
 import { MatTableModule } from '@angular/material/table';
@@ -12,6 +14,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+// Dialog components
+import { CreateUserDialogComponent } from '../create-user-dialog/create-user-dialog.component';
+import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
 
 @Component({
   selector: 'app-admin',
@@ -22,8 +30,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     CommonModule,
     HttpClientModule,
     RouterModule,
-
-    // Material Modules
+    FormsModule,
     MatTableModule,
     MatToolbarModule,
     MatButtonModule,
@@ -31,14 +38,19 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatTabsModule,
     MatCardModule,
     MatListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class AdminComponent implements OnInit {
   attendanceData: any[] = [];
   appeals: any[] = [];
+  users: any[] = [];
+  filteredUsers: any[] = [];
   displayedColumns: string[] = ['name', 'date', 'status'];
   selectedTab: string = '/admin/attendance';
+  searchTerm: string = '';
 
   navLinks = [
     { path: '/admin/attendance', label: 'Attendance' },
@@ -48,11 +60,12 @@ export class AdminComponent implements OnInit {
     { path: '/admin/dashboard', label: 'Dashboard' }
   ];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.loadAttendance();
     this.fetchAppeals();
+    this.fetchUsers();
   }
 
   // Loads attendance data
@@ -90,6 +103,26 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  // Fetch all users
+  fetchUsers() {
+    this.http.get<any[]>('http://localhost:8080/users/all').subscribe(
+      (data) => {
+        this.users = data;
+        this.filteredUsers = data;
+      },
+      (error) => {
+        console.error('Error fetching users:', error);
+      }
+    );
+  }
+
+  // Search users by username
+  searchUsers() {
+    this.filteredUsers = this.users.filter(user =>
+      user.userName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
   // Updates appeal status
   updateStatus(appealId: number, status: string) {
     this.http.put(`http://localhost:8080/api/appeals/update-status/${appealId}?status=${status}`, {})
@@ -112,6 +145,8 @@ export class AdminComponent implements OnInit {
       this.loadAttendance();
     } else if (path === '/admin/appeal') {
       this.fetchAppeals();
+    } else if (path === '/admin/users') {
+      this.fetchUsers();
     }
   }
 
@@ -126,8 +161,36 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  // Helper for today's date
-  getToday(): string {
-    return new Date().toISOString().split('T')[0];
+  // Open dialog to create a new user
+  openCreateUserDialog() {
+    const dialogRef = this.dialog.open(CreateUserDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchUsers(); // Refresh user list
+      }
+    });
+  }
+
+  // Open dialog to edit a user
+  openEditUserDialog(user: any) {
+    const dialogRef = this.dialog.open(EditUserDialogComponent, { data: user });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchUsers(); // Refresh user list
+      }
+    });
+  }
+
+  // Delete a user
+  deleteUser(userId: number) {
+    this.http.delete(`http://localhost:8080/users/${userId}`).subscribe(
+      () => {
+        alert('User deleted successfully!');
+        this.fetchUsers(); // Refresh user list
+      },
+      (error) => {
+        console.error('Error deleting user:', error);
+      }
+    );
   }
 }
