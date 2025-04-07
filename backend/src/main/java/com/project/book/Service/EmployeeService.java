@@ -31,6 +31,7 @@ public class EmployeeService {
         EmployeeEntity savedEmployee = employeeRepo.save(employeeEntity);
 
         return new EmployeeDTO(
+                savedEmployee.getId(),
                 savedEmployee.getFirstName(),
                 savedEmployee.getLastName(),
                 savedEmployee.getPhoneNumber(),
@@ -45,6 +46,7 @@ public class EmployeeService {
     public List<EmployeeDTO> getAllEmployees() {
         List<EmployeeEntity> employees = employeeRepo.findAll();
         return employees.stream().map(employee -> new EmployeeDTO(
+                employee.getId(),
                 employee.getFirstName(),
                 employee.getLastName(),
                 employee.getPhoneNumber(),
@@ -59,6 +61,7 @@ public class EmployeeService {
     public EmployeeDTO getEmployeeById(Long id) {
         Optional<EmployeeEntity> employeeEntity = employeeRepo.findById(id);
         return employeeEntity.map(employee -> new EmployeeDTO(
+                employee.getId(),
                 employee.getFirstName(),
                 employee.getLastName(),
                 employee.getPhoneNumber(),
@@ -95,6 +98,7 @@ public class EmployeeService {
         EmployeeEntity updatedEmployee = employeeRepo.save(existingEmployee);
 
         return new EmployeeDTO(
+                updatedEmployee.getId(),
                 updatedEmployee.getFirstName(),
                 updatedEmployee.getLastName(),
                 updatedEmployee.getPhoneNumber(),
@@ -104,10 +108,10 @@ public class EmployeeService {
                 updatedEmployee.getHireDate(),
                 updatedEmployee.getStatus().name());
     }
+
     public boolean isAdmin(Long id) {
         Optional<EmployeeEntity> employee = employeeRepo.findById(id);
         return employee.isPresent() && "admin".equalsIgnoreCase(employee.get().getPosition());
     }
-    
-    
+
 }

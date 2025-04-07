@@ -193,4 +193,7 @@ button.mat-button {
     margin-bottom: 10px; /* Add bottom margin for spacing */
   }
 }
-
+#logout-btn{
+margin-left: 2%;
+margin-top: 2%;
+}

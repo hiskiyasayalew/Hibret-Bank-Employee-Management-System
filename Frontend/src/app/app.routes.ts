@@ -9,7 +9,8 @@ import { EmployeeLoginComponent } from './employee-login/employee-login.componen
 import { AppealComponent } from './appeal/appeal.component';
 import { AdminComponent } from './admin/admin.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { AdminGuard } from './auth/admin.guard'; // Import the guard
+import { AdminGuard } from './auth/admin.guard';
+import { UserLandingComponent } from './user-landing/user-landing.component'; // Import the guard
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -22,7 +23,8 @@ export const routes: Routes = [
   { path: 'appeal', component: AppealComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }, // Admin guard applied here
   { path: 'unauthorized', component: UnauthorizedComponent }, // Unauthorized route
-  { path: '**', redirectTo: 'login' }, // Redirect unknown paths to login
+  { path: '**', redirectTo: 'login' },
+  { path: 'user-landing', component: UserLandingComponent },
 ];
 
 @NgModule({
