@@ -47,6 +47,7 @@ export class AttendanceComponent implements OnInit {
     const userId = this.user()?.id;
     console.log(`📡 Fetching attendance for user ID: ${userId}`);
 
+
     this.http
       .get<any[]>(`http://localhost:8080/api/attendance/employee/${userId}`)
       .subscribe(

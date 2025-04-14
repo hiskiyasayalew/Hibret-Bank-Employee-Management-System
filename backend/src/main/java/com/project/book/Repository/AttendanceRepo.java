@@ -4,6 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.project.book.Entity.AttendanceEntity;
+import com.project.book.Entity.EmployeeEntity;
+
+import jakarta.transaction.Transactional;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +23,9 @@ public interface AttendanceRepo extends JpaRepository<AttendanceEntity, Long> {
 
     // attendance records for a specific date
     List<AttendanceEntity> findByDate(LocalDate date);
-}
+
+     @Transactional
+     void deleteByEmployee(EmployeeEntity employee); // NOT static!
+      
+        
+    }

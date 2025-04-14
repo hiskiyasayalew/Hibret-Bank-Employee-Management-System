@@ -1,38 +1,37 @@
-    package com.project.book.Entity;
+package com.project.book.Entity;
 
-    import jakarta.persistence.*;
-    import lombok.*;
-    import java.time.LocalDate;
-    import java.time.LocalTime;
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-    @Entity
-    @Table(name = "attendance")
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public class AttendanceEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+@Entity
+@Table(name = "attendances") // Ensure the table name is plural for consistency
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AttendanceEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "employee", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY) // Lazy load for performance
+    @JoinColumn(name = "employee_id", nullable = false) // Foreign key reference to employee
+    private EmployeeEntity employee; // Link to EmployeeEntity
 
-        private EmployeeEntity employee;
+    @Column(nullable = false)
+    private LocalDate date; // Attendance date
 
-        @Column(nullable = false)
-        private LocalDate date;
+    private LocalTime checkInTime; // Time of check-in
 
-        private LocalTime checkInTime;
+    private LocalTime checkOutTime; // Time of check-out
 
-        private LocalTime checkOutTime;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Status status = Status.PRESENT; // Default status is PRESENT
 
-        @Enumerated(EnumType.STRING)
-        @Builder.Default
-        private Status status = Status.PRESENT;
-
-        public enum Status {
-            PRESENT, ABSENT, LEAVE
-        }
+    public enum Status {
+        PRESENT, ABSENT, LEAVE
     }
+}

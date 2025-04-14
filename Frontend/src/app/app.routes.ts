@@ -15,6 +15,7 @@ import { UserLandingComponent } from './user-landing/user-landing.component'; //
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'user-landing', component: UserLandingComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'home', component: HomeComponent },
   { path: 'employee', component: EmployeeComponent },
@@ -24,7 +25,6 @@ export const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }, // Admin guard applied here
   { path: 'unauthorized', component: UnauthorizedComponent }, // Unauthorized route
   { path: '**', redirectTo: 'login' },
-  { path: 'user-landing', component: UserLandingComponent },
 ];
 
 @NgModule({

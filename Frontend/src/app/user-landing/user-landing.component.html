@@ -1,39 +1,60 @@
-<!-- Navigation Bar -->
-<nav class="navbar">
-    <div class="logo">MyLogo</div>
-    <button class="login-button">Login</button>
-</nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<!-- Hero Section -->
-<div class="hero-section">
-    <div class="slider">
-        <div class="slides">
-            <div class="slide" *ngFor="let slide of slides; let i = index" [class.active]="i === currentSlide">
-                <img [src]="slide" alt="Slide {{i + 1}}">
-            </div>
-        </div>
-        <div class="arrows">
-            <button class="prev" (click)="changeSlide(-1)">&#10094;</button>
-            <button class="next" (click)="changeSlide(1)">&#10095;</button>
-        </div>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">Hibret Bank EMS</div>
+    <div class="navbar-buttons">
+      <button [routerLink]="['/employee-login']">Employee Login</button>
+      <button [routerLink]="['/employee']">Employee Register</button>
+      <button [routerLink]="['/login']">log-out</button>
+
+
     </div>
-</div>
+  </nav>
 
-<!-- About Us Section -->
-<section class="about-us">
-    <h2>About Us</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua.</p>
-</section>
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1><span>Welcome</span> <br> to Our Employee Management Sysrem</h1>
+  </div>
 
-<!-- Contact Us Section -->
-<section class="contact-us">
+  <!-- About Us Section -->
+  <section id="about">
+    <h2>About the system</h2>
+    <p>The Employee Management System for Hibret Bank is a comprehensive, web-based solution designed to streamline and enhance the bank’s internal operations. Developed with modern web technologies, the system offers a centralized platform for managing employee data, monitoring attendance, and handling administrative functions with improved efficiency and security.
+      <br>
+      <br>
+      One of the core features of the system is the attendance tracking module, which allows employees to log their daily presence through a secure and intuitive interface. Each attendance entry is validated in real-time, ensuring data integrity and providing admins with reliable insights into employee work patterns.
+      <br>
+      <br>
+      The platform includes role-based access control, where only authenticated users can log in. The system distinguishes between regular employees and the admin user, who has exclusive privileges to perform Create, Read, Update, and Delete (CRUD) operations on employee records. This ensures tight security and controlled data manipulation across the platform.
+      <br>
+      <br>
+      Another key feature is the appeals handling module, which allows employees to submit formal requests or grievances directly to the admin. These appeals are tracked and managed within the system, allowing for transparent and traceable communication between employees and management.
+      <br>
+      Overall, this Employee Management System was tailored to meet the unique operational needs of Hibret Bank, providing a scalable, secure, and user-friendly solution that improves HR operations and supports digital transformation efforts within the organization.</p>
+  </section>
+
+  <!-- Contact Us Section -->
+  <section id="contact">
     <h2>Contact Us</h2>
-    <p>Email: contact</p>
-    <p>Phone: (123) 456-7890</p>
-</section>
+    <p>Location: Addis Ababa, Ethiopia</p>
+  </section>
 
-<!-- Footer Section -->
-<footer>
-    <p>&copy; 2023 MyWebsite. All rights reserved.</p>
-</footer>
+  <!-- Footer -->
+  <footer>
+    <p>April 2025</p>
+  </footer>
+
+</body>
+</html>

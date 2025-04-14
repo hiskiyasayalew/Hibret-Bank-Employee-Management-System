@@ -47,7 +47,7 @@ export class LoginComponent {
           if (userName.toLowerCase() === 'admin') {
             this.router.navigate(['/admin']);
           } else {
-            this.router.navigate(['/employee-login']);
+            this.router.navigate(['/user-landing']);
           }
         },
         error: (error) => {
