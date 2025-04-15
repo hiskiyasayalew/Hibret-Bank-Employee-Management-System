@@ -33,6 +33,10 @@ public class UserService {
             user.setUserName(userDTO.getUserName());
             user.setPassword(userDTO.getPassword());
             user.setEmail(userDTO.getEmail());
+    
+            // ✅ Set role with default to "Employee" if not provided
+            user.setRole(userDTO.getRole() != null ? userDTO.getRole() : "Employee");
+    
             try {
                 userRepository.save(user);
                 return Map.of("message", "Created user successfully");
@@ -40,9 +44,10 @@ public class UserService {
                 return Map.of("error", "User creation failed: " + e.getMessage());
             }
         }
-
+    
         return Map.of("error", "User has no entry");
     }
+    
 
     // Getting user by username
     public UserEntity getUserByUserName(String userName) {

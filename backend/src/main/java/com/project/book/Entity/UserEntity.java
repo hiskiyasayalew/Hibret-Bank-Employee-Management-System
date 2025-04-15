@@ -27,7 +27,7 @@ public class UserEntity {
     // @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     // private RoleEntity role;
-    private String role;
+    private String role = "EMPLOYEE";
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
