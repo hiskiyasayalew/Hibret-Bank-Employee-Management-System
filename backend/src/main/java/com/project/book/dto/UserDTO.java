@@ -18,4 +18,6 @@ public class UserDTO {
     @NotBlank
     @Size(min = 3, max = 255)
     private String email;
+
+    private String role;
 }

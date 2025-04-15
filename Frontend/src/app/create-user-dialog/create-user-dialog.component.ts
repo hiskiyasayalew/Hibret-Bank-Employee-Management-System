@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select'; // ✅ Added this
 
 @Component({
   selector: 'app-create-user-dialog',
@@ -16,47 +17,87 @@ import { MatButtonModule } from '@angular/material/button';
     <div mat-dialog-content class="dialog-form">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Username</mat-label>
-        <input matInput placeholder="Enter username" [(ngModel)]="user.userName" required />
+        <input
+          matInput
+          placeholder="Enter username"
+          [(ngModel)]="user.userName"
+          required
+        />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Email</mat-label>
-        <input matInput type="email" placeholder="Enter email" [(ngModel)]="user.email" required />
+        <input
+          matInput
+          type="email"
+          placeholder="Enter email"
+          [(ngModel)]="user.email"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Role</mat-label>
+        <mat-select [(ngModel)]="user.role" name="role" required>
+          <mat-option value="ADMIN">ADMIN</mat-option>
+          <mat-option value="EMPLOYEE">EMPLOYEE</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Password</mat-label>
-        <input matInput type="password" placeholder="Enter password" [(ngModel)]="user.password" required />
+        <input
+          matInput
+          type="password"
+          placeholder="Enter password"
+          [(ngModel)]="user.password"
+          required
+        />
       </mat-form-field>
     </div>
 
     <div mat-dialog-actions align="end">
       <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-raised-button color="primary" (click)="onCreate()" [disabled]="!isFormValid()">Create</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onCreate()"
+        [disabled]="!isFormValid()"
+      >
+        Create
+      </button>
     </div>
   `,
-  styles: [`
-    .dialog-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding-top: 8px;
-    }
-    .full-width {
-      width: 100%;
-    }
-  `],
+  styles: [
+    `
+      .dialog-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-top: 8px;
+      }
+      .full-width {
+        width: 100%;
+      }
+    `,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     MatInputModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+    MatSelectModule, // ✅ Imported here
+  ],
 })
 export class CreateUserDialogComponent {
-  user = { userName: '', email: '', password: '' };
+  user = {
+    userName: '',
+    email: '',
+    role: '',
+    password: '',
+  };
 
   constructor(
     private dialogRef: MatDialogRef<CreateUserDialogComponent>,
@@ -75,7 +116,7 @@ export class CreateUserDialogComponent {
   }
 
   isFormValid(): boolean {
-    const { userName, email, password } = this.user;
-    return !!(userName && email && password);
+    const { userName, email, role, password } = this.user;
+    return !!(userName && email && role && password);
   }
 }

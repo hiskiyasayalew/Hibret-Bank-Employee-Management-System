@@ -26,13 +26,13 @@ export class AttendanceComponent implements OnInit {
     if (userString) {
       try {
         const parsedUser = JSON.parse(userString);
-        console.log("✅ User loaded from localStorage:", parsedUser);
+        console.log('✅ User loaded from localStorage:', parsedUser);
         this.user.set(parsedUser);
       } catch (error) {
-        console.error("❌ Error parsing user data:", error);
+        console.error('❌ Error parsing user data:', error);
       }
     } else {
-      console.warn("⚠️ No user found in localStorage!");
+      console.warn('⚠️ No user found in localStorage!');
     }
 
     this.fetchAttendance();
@@ -40,13 +40,12 @@ export class AttendanceComponent implements OnInit {
 
   fetchAttendance(): void {
     if (!this.user()) {
-      console.warn("⚠️ fetchAttendance(): No user found.");
+      console.warn('⚠️ fetchAttendance(): No user found.');
       return;
     }
 
     const userId = this.user()?.id;
     console.log(`📡 Fetching attendance for user ID: ${userId}`);
-
 
     this.http
       .get<any[]>(`http://localhost:8080/api/attendance/employee/${userId}`)
@@ -54,15 +53,15 @@ export class AttendanceComponent implements OnInit {
         (data) => {
           this.attendanceList = data;
         },
-        (error) => console.error("❌ Error fetching attendance:", error)
+        (error) => console.error('❌ Error fetching attendance:', error)
       );
   }
-navigateToAppeal(): void {
-  this.router.navigate(['/appeal']);
-}
+  navigateToAppeal(): void {
+    this.router.navigate(['/appeal']);
+  }
   markAttendance(): void {
     if (!this.user()) {
-      console.warn("⚠️ markAttendance(): No user found.");
+      console.warn('⚠️ markAttendance(): No user found.');
       return;
     }
 
@@ -77,7 +76,7 @@ navigateToAppeal(): void {
       status: 'PRESENT',
     };
 
-    console.log("📡 Sending attendance request:", requestBody);
+    console.log('📡 Sending attendance request:', requestBody);
 
     this.http
       .post<any>('http://localhost:8080/api/attendance/mark', requestBody)
@@ -86,24 +85,14 @@ navigateToAppeal(): void {
           alert('Attendance marked successfully!');
           this.fetchAttendance(); // Refresh attendance list after marking
         },
-        (error) => console.error("❌ Error marking attendance:", error)
+        (error) => console.error('❌ Error marking attendance:', error)
       );
   }
 
   logout(): void {
-    alert("Have a good day!");
+    alert('Have a good day!');
     localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    localStorage.removeItem('employee');
+    this.router.navigate(['/employee-login']);
   }
 }
-
-
-
-
-
-
-
-
-
-
-

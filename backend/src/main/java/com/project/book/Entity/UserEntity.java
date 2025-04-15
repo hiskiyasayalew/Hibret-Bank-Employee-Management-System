@@ -25,13 +25,12 @@ public class UserEntity {
     private String email;
 
     // @Enumerated(EnumType.STRING)
-    // @Column(nullable = false)
-    // private Role role;
+    @Column(nullable = false)
+    // private RoleEntity role;
+    private String role;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-
 
     @PrePersist
     protected void onCreate() {

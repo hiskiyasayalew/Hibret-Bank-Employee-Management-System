@@ -11,17 +11,35 @@ import { AdminComponent } from './admin/admin.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { AdminGuard } from './auth/admin.guard';
 import { UserLandingComponent } from './user-landing/user-landing.component'; // Import the guard
+import { EmployeeLoginGuard } from './auth/employeeLogin.guard';
+
+import { EmployeeGuard } from './auth/Employee.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'user-landing', component: UserLandingComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'user-landing',
+    component: UserLandingComponent,
+    // canActivate: [userLandingGuard],
+  },
   { path: 'signup', component: SignupComponent },
   { path: 'home', component: HomeComponent },
   { path: 'employee', component: EmployeeComponent },
-  { path: 'attendance', component: AttendanceComponent },
-  { path: 'employee-login', component: EmployeeLoginComponent },
-  { path: 'appeal', component: AppealComponent },
+  {
+    path: 'attendance',
+    component: AttendanceComponent,
+    canActivate: [EmployeeGuard],
+  },
+  {
+    path: 'employee-login',
+    component: EmployeeLoginComponent,
+    canActivate: [EmployeeLoginGuard],
+  },
+  { path: 'appeal', component: AppealComponent, canActivate: [EmployeeGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }, // Admin guard applied here
   { path: 'unauthorized', component: UnauthorizedComponent }, // Unauthorized route
   { path: '**', redirectTo: 'login' },

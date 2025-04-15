@@ -81,6 +81,20 @@ public class UserController {
         }
     }
 
+    @PostMapping("/loginuser")
+    public ResponseEntity<?> loginUser(@RequestBody loginDTO loginDTO) {
+        UserEntity user = userService.getUserByUserName(loginDTO.getUserName());
+
+        if (user != null &&
+                user.getUserName().equals(loginDTO.getUserName()) &&
+                user.getPassword().equals(loginDTO.getPassword())) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid username or password"));
+        }
+    }
+
     // Delete user by ID
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long id) {

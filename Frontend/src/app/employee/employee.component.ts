@@ -55,12 +55,13 @@ export class EmployeeComponent implements OnInit {
 
         setTimeout(() => {
           this.successMessage = '';
-          this.router.navigate(['/']); // Redirect after success
+          this.router.navigate(['/employee-login']); // Redirect after success
         }, 2000);
       },
       error: (error) => {
         console.error('Error registering employee:', error);
-        this.errorMessage = error?.error?.message || 'Failed to register employee!';
+        this.errorMessage =
+          error?.error?.message || 'Failed to register employee!';
       },
     });
   }
